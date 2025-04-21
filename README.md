@@ -1,0 +1,1 @@
+Backend repository for the conference app client: https://github.com/Yoshi1722/Conference-app
