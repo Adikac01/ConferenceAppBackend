@@ -6,7 +6,11 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/users")
 class UserController(private val userService: UserService) {
 	@GetMapping
-	fun getAllUsers(): Iterable<UserResponse> = userService.getAllUsers().map { it.toResponse() }
+	fun getAllUsers(): Iterable<UserResponse> {
+		val users = userService.getAllUsers().map { it.toResponse() }
+		println(users)
+		return users
+	}
 
 	@GetMapping("/{id}")
 	fun getUserById(@PathVariable id: Long): UserResponse? = userService.getUserById(id)?.toResponse()
