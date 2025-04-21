@@ -12,7 +12,7 @@ fun UserRequest.toEntity(): User {
 
 fun User.toResponse(): UserResponse {
 	return UserResponse(
-		id = this.id!!,
+		id = this.id ?: 0,
 		email = this.email,
 		name = this.name,
 		surname = this.surname,
