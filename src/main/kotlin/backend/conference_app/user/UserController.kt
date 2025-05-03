@@ -3,7 +3,7 @@ package backend.conference_app.user
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 class UserController(private val userService: UserService) {
 	@GetMapping
 	fun getAllUsers(): Iterable<UserResponse> = userService.getAllUsers().map { it.toResponse() }

@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service
 @Service
 class AuthService(
 	private val userRepository: UserRepository,
-	private val passwordEncoder: PasswordEncoder
+	private val passwordEncoder: PasswordEncoder,
+	private val jwtService: JwtService
 ) {
 
 	fun register(request: UserRequest): User {
@@ -20,8 +21,13 @@ class AuthService(
 		return userRepository.save(hashedUser)
 	}
 
-	fun login(email: String, password: String): User? {
-		val user = userRepository.findByEmail(email) ?: return null
-		return if (passwordEncoder.matches(password, user.password)) user else null
+	fun login(email: String, password: String): Pair<User, String>? {
+		val user = userRepository.findByEmail(email)
+		return if (user != null && passwordEncoder.matches(password, user.password)) {
+			val token = jwtService.generateToken(user)
+			Pair(user, token)
+		} else {
+			null
+		}
 	}
 }
