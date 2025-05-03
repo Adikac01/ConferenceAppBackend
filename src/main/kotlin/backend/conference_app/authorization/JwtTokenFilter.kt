@@ -26,6 +26,14 @@ class JwtTokenFilter(
 		response: HttpServletResponse,
 		filterChain: FilterChain
 	) {
+		val path = request.servletPath
+
+		// Skip JWT processing for public endpoints
+		if (path.startsWith("/api/public/")) {
+			filterChain.doFilter(request, response)
+			return
+		}
+
 		val authHeader = request.getHeader(header)
 
 		if (authHeader.isNullOrBlank() || !authHeader.startsWith("$tokenPrefix ")) {
