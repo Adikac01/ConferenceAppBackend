@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
 
 @RestController
-@RequestMapping("/conferences")
+@RequestMapping("/api/conferences")
 class ConferenceController(private val conferenceService: ConferenceService) {
 
 	@GetMapping
