@@ -1,4 +1,4 @@
-package backend.conference_app.event.attendence
+package backend.conference_app.event.attendance
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table

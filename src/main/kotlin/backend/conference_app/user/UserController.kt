@@ -1,11 +1,12 @@
 package backend.conference_app.user
 
 import backend.conference_app.error.ErrorResponse
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/restricted/users")
 class UserController(private val userService: UserService) {
 
 	@GetMapping
@@ -30,5 +31,14 @@ class UserController(private val userService: UserService) {
 	fun createUser(@RequestBody request: UserRequest): ResponseEntity<UserResponse> {
 		val user = userService.createUser(request.toEntity())
 		return ResponseEntity.status(201).body(user.toResponse())
+	}
+
+	@DeleteMapping("/{id}")
+	fun deleteUser(@PathVariable id: Long): ResponseEntity<Void> {
+		return if (userService.deleteUserById(id)) {
+			ResponseEntity.noContent().build() // 204 No Content if deleted
+		} else {
+			ResponseEntity.status(HttpStatus.NOT_FOUND).build() // 404 if not found
+		}
 	}
 }
