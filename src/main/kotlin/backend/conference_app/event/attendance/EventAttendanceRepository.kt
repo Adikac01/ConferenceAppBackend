@@ -1,4 +1,4 @@
-package backend.conference_app.event.attendence
+package backend.conference_app.event.attendance
 
 import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository

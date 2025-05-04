@@ -1,4 +1,4 @@
-package backend.conference_app.authorization
+package backend.conference_app.security
 
 import backend.conference_app.user.User
 import io.jsonwebtoken.Claims

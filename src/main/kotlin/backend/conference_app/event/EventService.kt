@@ -1,7 +1,7 @@
 package backend.conference_app.event
 
-import backend.conference_app.event.attendence.EventAttendance
-import backend.conference_app.event.attendence.EventAttendanceRepository
+import backend.conference_app.event.attendance.EventAttendance
+import backend.conference_app.event.attendance.EventAttendanceRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 

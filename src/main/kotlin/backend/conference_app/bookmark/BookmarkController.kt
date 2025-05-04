@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/bookmarks")
+@RequestMapping("/protected/bookmarks")
 class BookmarkController(private val bookmarkService: BookmarkService) {
 
 	@GetMapping("/{userId}")

@@ -16,4 +16,13 @@ class UserService(
 	fun getAllUsers(): List<User> = userRepository.findAll().toList()
 
 	fun getUserById(id: Long): User? = userRepository.findById(id).orElse(null)
+
+	fun deleteUserById(id: Long): Boolean {
+		return if (userRepository.existsById(id)) {
+			userRepository.deleteById(id)
+			true
+		} else {
+			false
+		}
+	}
 }
