@@ -1,4 +1,4 @@
-package backend.conference_app.authorization
+package backend.conference_app.security
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
