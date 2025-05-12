@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.User
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
@@ -44,14 +43,21 @@ class JwtTokenFilter(
 		val token = authHeader.removePrefix("$tokenPrefix ").trim()
 
 		if (jwtService.validateToken(token)) {
-			val username = jwtService.extractUsername(token)
+			val claims = jwtService.extractAllClaims(token)
+			val userId = claims["userId"].toString().toLong()
+			val username = claims.subject
+			val authorities = jwtService.getAuthorities(token)
+
+			val principal = JwtUserPrincipal(userId, username, authorities)
+
 			val authentication = UsernamePasswordAuthenticationToken(
-				User(username, "", jwtService.getAuthorities(token)),
+				principal,
 				null,
-				jwtService.getAuthorities(token)
+				authorities
 			).apply {
 				details = WebAuthenticationDetailsSource().buildDetails(request)
 			}
+
 			SecurityContextHolder.getContext().authentication = authentication
 		}
 

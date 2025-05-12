@@ -2,6 +2,7 @@ package backend.conference_app.event
 
 import backend.conference_app.event.attendance.EventAttendance
 import backend.conference_app.event.attendance.EventAttendanceRepository
+import backend.conference_app.security.SecurityUtils
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -33,6 +34,8 @@ class EventService(
 		eventRepository.save(event)
 
 	fun addEventAttendance(eventAttendance: EventAttendance): EventAttendance {
+		SecurityUtils.requireOwnershipOrAdmin(eventAttendance.userId)
+
 		val event = eventRepository.findById(eventAttendance.eventId)
 			.orElseThrow { IllegalArgumentException("Event with id ${eventAttendance.eventId} not found.") }
 
@@ -49,6 +52,8 @@ class EventService(
 		attendanceRepository.findByEventId(eventId)
 
 	fun getEventsByUser(userId: Long): List<EventResponse> {
+		SecurityUtils.requireOwnershipOrAdmin(userId)
+
 		val attendances = attendanceRepository.findByUserId(userId)
 		val eventIds = attendances.map { it.eventId }.toSet()
 		return eventRepository.findAll()
