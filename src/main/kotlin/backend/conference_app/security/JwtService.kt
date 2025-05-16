@@ -45,7 +45,8 @@ class JwtService(
 
 	fun generateToken(user: User): String {
 		val claims = mapOf(
-			"role" to user.role
+			"role" to user.role,
+			"userId" to user.id.toString()
 		)
 		return createToken(claims, user.email)
 	}
@@ -56,7 +57,7 @@ class JwtService(
 		return listOf(SimpleGrantedAuthority("ROLE_${role}"))
 	}
 
-	private fun extractAllClaims(token: String): Claims =
+	fun extractAllClaims(token: String): Claims =
 		Jwts.parserBuilder()
 			.setSigningKey(signInKey)
 			.build()

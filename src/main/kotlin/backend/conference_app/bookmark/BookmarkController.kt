@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.*
 class BookmarkController(private val bookmarkService: BookmarkService) {
 
 	@GetMapping("/{userId}")
-	fun getBookmarks(@PathVariable userId: Long): ResponseEntity<List<Bookmark>> =
+	fun getBookmarks(@PathVariable userId: Long): ResponseEntity<List<BookmarkResponse>> =
 		ResponseEntity.ok(bookmarkService.getBookmarksForUser(userId))
 
 	@PostMapping
-	fun addBookmark(@RequestParam userId: Long, @RequestParam eventId: Long): ResponseEntity<Bookmark> {
+	fun addBookmark(
+		@RequestParam userId: Long,
+		@RequestParam eventId: Long
+	): ResponseEntity<BookmarkResponse> {
 		val created = bookmarkService.addBookmark(userId, eventId)
 		return ResponseEntity.status(201).body(created)
 	}
