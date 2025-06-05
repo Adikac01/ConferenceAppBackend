@@ -4,5 +4,5 @@ import backend.conference_app.user.UserResponse
 
 data class AuthResponse(
 	val token: String,
-	val user: UserResponse? = null  // Optional: include basic user info
+	val user: UserResponse? = null
 )

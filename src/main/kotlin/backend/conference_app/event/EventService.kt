@@ -9,7 +9,8 @@ import java.time.LocalDateTime
 @Service
 class EventService(
 	private val eventRepository: EventRepository,
-	private val attendanceRepository: EventAttendanceRepository
+	private val attendanceRepository: EventAttendanceRepository,
+	private val eventTypeRepository: EventTypeRepository
 ) {
 
 	fun getAllEvents(): List<EventResponse> =
@@ -65,7 +66,7 @@ class EventService(
 		val attendees = attendanceRepository.findByEventId(event.id ?: return event.toDefaultResponse())
 		val remaining = event.maxAttendees?.let { it - attendees.size }
 		return EventResponse(
-			id = event.id!!,
+			id = event.id,
 			conferenceId = event.conferenceId,
 			typeId = event.typeId,
 			name = event.name,
@@ -90,4 +91,6 @@ class EventService(
 		remainingPlaces = maxAttendees,
 		speakerInfo = speakerInfo
 	)
+
+	
 }
