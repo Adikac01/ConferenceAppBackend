@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service
 @Service
 class BookmarkService(
 	private val bookmarkRepository: BookmarkRepository,
-	private val eventService: EventService
+	private val eventService: EventService,
+	private val bookmarkReportRepository: BookmarkReportRepository
 ) {
 
 	fun getBookmarksForUser(userId: Long): List<BookmarkResponse> {
@@ -46,7 +47,7 @@ class BookmarkService(
 	}
 
 	fun countBookmarksForEvents(): List<EventBookmarkResponse> {
-		return bookmarkRepository.findEventBookmarkCounts()
+		return bookmarkReportRepository.findEventBookmarkCounts()
 	}
 
 	fun removeBookmark(userId: Long, eventId: Long) {
