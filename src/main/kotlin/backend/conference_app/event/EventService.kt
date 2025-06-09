@@ -92,5 +92,5 @@ class EventService(
 		speakerInfo = speakerInfo
 	)
 
-	
+
 }
