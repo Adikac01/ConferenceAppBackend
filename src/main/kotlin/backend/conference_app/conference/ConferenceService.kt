@@ -17,4 +17,7 @@ class ConferenceService(private val conferenceRepository: ConferenceRepository) 
 
 	fun getConferencesAtLocation(location: String): List<Conference> =
 		conferenceRepository.findByLocation(location)
+
+	fun saveAll(conferences: List<Conference>): List<Conference> =
+        conferenceRepository.saveAll(conferences).toList()
 }
