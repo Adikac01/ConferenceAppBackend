@@ -55,4 +55,27 @@ class EventController(private val service: EventService) {
 	@GetMapping("/public/events/user/{userId}")
 	fun getEventsByUser(@PathVariable userId: Long): ResponseEntity<List<EventResponse>> =
 		ResponseEntity.ok(service.getEventsByUser(userId))
+
+	@PutMapping("/restricted/events/{eventId}")
+	fun updateEvent(
+		@PathVariable eventId: Long,
+		@RequestBody updatedEvent: Event
+	): ResponseEntity<Any> {
+		val updated = service.updateEvent(eventId, updatedEvent)
+		return if (updated != null) {
+			ResponseEntity.ok(updated)
+		} else {
+			ResponseEntity.status(404).body(ErrorResponse(404, "Event with id $eventId not found"))
+		}
+	}
+
+	@DeleteMapping("/restricted/events/{eventId}")
+	fun deleteEvent(@PathVariable eventId: Long): ResponseEntity<Any> {
+		return if (service.deleteEvent(eventId)) {
+			ResponseEntity.noContent().build()
+		} else {
+			ResponseEntity.status(404).body(ErrorResponse(404, "Event with id $eventId not found"))
+		}
+	}
+
 }

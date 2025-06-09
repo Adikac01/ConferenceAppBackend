@@ -62,6 +62,21 @@ class EventService(
 			.map { toEventResponse(it) }
 	}
 
+	fun updateEvent(eventId: Long, updatedEvent: Event): Event? {
+		val existing = eventRepository.findById(eventId)
+		return if (existing.isPresent) {
+			val eventToSave = updatedEvent.copy(id = eventId)
+			eventRepository.save(eventToSave)
+		} else null
+	}
+
+	fun deleteEvent(eventId: Long): Boolean {
+		return if (eventRepository.existsById(eventId)) {
+			eventRepository.deleteById(eventId)
+			true
+		} else false
+	}
+
 	private fun toEventResponse(event: Event): EventResponse {
 		val attendees = attendanceRepository.findByEventId(event.id ?: return event.toDefaultResponse())
 		val remaining = event.maxAttendees?.let { it - attendees.size }
