@@ -45,9 +45,13 @@ class BookmarkService(
 		throw IllegalStateException("Bookmark already exists.")
 	}
 
+	fun countBookmarksForEvents(): List<EventBookmarkResponse> {
+		return bookmarkRepository.findEventBookmarkCounts()
+	}
+
 	fun removeBookmark(userId: Long, eventId: Long) {
 		SecurityUtils.requireOwnershipOrAdmin(userId)
-		
+
 		bookmarkRepository.deleteByUserIdAndEventId(userId, eventId)
 	}
 }
