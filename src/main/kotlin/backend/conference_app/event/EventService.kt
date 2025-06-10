@@ -63,11 +63,14 @@ class EventService(
 	}
 
 	fun updateEvent(eventId: Long, updatedEvent: Event): Event? {
-		val existing = eventRepository.findById(eventId)
-		return if (existing.isPresent) {
-			val eventToSave = updatedEvent.copy(id = eventId)
-			eventRepository.save(eventToSave)
-		} else null
+		val existingEvent = eventRepository.findById(eventId).orElse(null) ?: return null
+
+		val mergedEvent = updatedEvent.copy(
+			id = existingEvent.id,
+			maxAttendees = existingEvent.maxAttendees
+		)
+
+		return eventRepository.save(mergedEvent)
 	}
 
 	fun deleteEvent(eventId: Long): Boolean {
